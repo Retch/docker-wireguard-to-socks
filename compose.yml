@@ -6,9 +6,10 @@ services:
       - NET_ADMIN
     volumes:
       - /lib/modules:/lib/modules
-      - ./configdir1:/etc/wireguard
+      - ./configdir1:/configdir:z
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
+    privileged: true
     ports:
       - "127.0.0.1:1081:1080"
     healthcheck:
