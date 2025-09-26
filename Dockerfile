@@ -1,11 +1,14 @@
 FROM alpine:3.22
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-RUN apk --no-cache add 3proxy wireguard-tools curl iptables
-ADD entrypoint.sh /usr/local/bin/
+WORKDIR /app
 
-VOLUME [ "/etc/wireguard" ]
+RUN apk --no-cache add dante-server wireguard-tools curl iptables
 
-ENTRYPOINT ["entrypoint.sh"]
+ADD entrypoint.sh /app/
+ADD sockd.conf /etc/sockd.conf
+
+VOLUME [ "/configdir" ]
+
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 EXPOSE 1080
